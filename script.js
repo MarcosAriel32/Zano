@@ -1,58 +1,63 @@
 const canales = [
   {
-    nombre: "A24",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/7/7c/A24_logo.png",
-    url: "https://linear-401.frequency.stream/401/hls/master/playlist.m3u8?key=admin"
-  },
-  {
-    nombre: "América",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/b/b0/Am%C3%A9rica_TV_logo.svg",
-    url: "https://example.com/tu-canal2.mpd?key=admin"
+    nombre: "Canal 26",
+    logo: "https://geo.edge.pontiscloud.com:9002/images/361/CH_LOGO/160/160/0/0/34056872073.png",
+    url: "https://cdn.sensa.com.ar/live/eds/Canal26/live_dash_cld/Canal26.mpd",
+    license: {
+      type: "org.w3.clearkey",
+      key: "b35aecc554b859a97cf11b892731af1f:3a5da1a7c6a5cc6e488bdbbbf09132ff"
+    },
+    headers: {
+      referer: "https://player.sensa.com.ar/",
+      webtoken: "1.0"
+    }
   }
-  // Agregá más canales como este
 ];
 
-// Inicializa Shaka
-function initPlayer(container, url) {
-  const video = document.createElement('video');
-  video.className = 'video-player';
-  video.autoplay = false;
-  video.controls = true;
-
-  container.appendChild(video);
-
-  const player = new shaka.Player(video);
-  player.configure({
-    drm: {
-      clearKeys: { }
-    }
-  });
-
-  player.load(url).catch(e => {
-    console.error("Error al cargar canal:", e);
-    video.poster = "https://i.imgur.com/1H0UnNc.png";
-  });
-}
-
-window.onload = () => {
-  const contenedor = document.getElementById('canales-container');
-
+// Código para cargar el reproductor
+function cargarCanales() {
+  const contenedor = document.getElementById("canales");
   canales.forEach(canal => {
-    const card = document.createElement('div');
-    card.className = 'card';
+    const card = document.createElement("div");
+    card.className = "canal-card";
 
-    const titulo = document.createElement('h2');
-    titulo.textContent = canal.nombre;
-
-    const logo = document.createElement('img');
+    const logo = document.createElement("img");
     logo.src = canal.logo;
     logo.alt = canal.nombre;
 
+    const nombre = document.createElement("p");
+    nombre.textContent = canal.nombre;
+
     card.appendChild(logo);
-    card.appendChild(titulo);
-
+    card.appendChild(nombre);
+    card.onclick = () => reproducir(canal);
     contenedor.appendChild(card);
-
-    initPlayer(card, canal.url);
   });
-};
+}
+
+function reproducir(canal) {
+  const video = document.getElementById("video");
+  if (dashjs.MediaPlayer.isSupported()) {
+    const player = dashjs.MediaPlayer().create();
+    player.updateSettings({
+      streaming: {
+        headers: {
+          Referer: canal.headers.referer,
+          webtoken: canal.headers.webtoken
+        }
+      },
+      protection: {
+        clearkey: {
+          clearkeys: {
+            [canal.license.key.split(":")[0]]: canal.license.key.split(":")[1]
+          }
+        }
+      }
+    });
+    player.initialize(video, canal.url, true);
+  } else {
+    alert("Tu navegador no soporta reproducción DASH.");
+  }
+}
+
+window.onload = cargarCanales;
