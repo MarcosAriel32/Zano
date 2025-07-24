@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>TV en Vivo Gratis</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: white; text-align: center; }
+    .channel-card { background: #222; margin: 1em; padding: 1em; border-radius: 10px; display: inline-block; width: 150px; }
+    .channel-card img { width: 100px; height: 100px; object-fit: contain; }
+  </style>
+</head>
+<body>
+  <h1>📺 Canales IPTV Gratis</h1>
+  <div id="channels"></div>
+
+  <script>
+    const url = "https://pastebin.com/raw/Dxiva5RP"; // tu lista m3u8
+    fetch(url)
+      .then(res => res.text())
+      .then(data => {
+        const lines = data.split('\n');
+        const channels = [];
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].startsWith('#EXTINF')) {
+            const title = lines[i].split(',')[1];
+            const logoMatch = lines[i].match(/tvg-logo="(.*?)"/);
+            const logo = logoMatch ? logoMatch[1] : '';
+            const stream = lines[i + 1];
+            channels.push({ title, logo, stream });
+          }
+        }
+
+        const container = document.getElementById('channels');
+        channels.forEach(ch => {
+          const div = document.createElement('div');
+          div.className = 'channel-card';
+          div.innerHTML = `
+            <h4>${ch.title}</h4>
+            <img src="${ch.logo}" alt="${ch.title}" />
+            <br/>
+            <video width="120" height="90" controls>
+              <source src="${ch.stream}" type="application/x-mpegURL">
+              Tu navegador no soporta el reproductor.
+            </video>
+          `;
+          container.appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
