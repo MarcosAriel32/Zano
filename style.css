@@ -1,0 +1,26 @@
+body {
+  background: #111;
+  color: #fff;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+h1 {
+  color: cyan;
+}
+.card {
+  background: #222;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
+}
+.card img {
+  width: 60px;
+}
+.video-player {
+  width: 100%;
+  height: 200px;
+  margin-top: 10px;
+}
