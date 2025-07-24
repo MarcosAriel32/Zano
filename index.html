@@ -3,53 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>📺 Lista IPTV .mpd</title>
-  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.min.js"></script>
-  <script defer src="script.js"></script>
-  <style>
-    body {
-      background-color: #121212;
-      color: #f0f0f0;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #00d1ff;
-      margin-bottom: 30px;
-    }
-
-    .canal-card {
-      background: #1e1e1e;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    }
-
-    .canal-card h3 {
-      margin: 0 0 10px;
-      font-size: 1.2rem;
-      color: #ffffff;
-    }
-
-    video {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-
-    @media (min-width: 600px) {
-      video {
-        max-width: 600px;
-      }
-    }
-  </style>
+  <title>TV en vivo - Argentina</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.min.js"></script>
 </head>
 <body>
-  <h1>📡 Canales en Vivo (.mpd)</h1>
-  <div id="player-container"></div>
+  <h1>Canales en Vivo</h1>
+  <video id="video" controls autoplay width="100%" height="auto" poster="poster.jpg"></video>
+
+  <div class="container">
+    <div class="card" onclick="playChannel('https://cdn.sensa.com.ar/live/eds/Telefe/live_dash_cld/Telefe.mpd', '9bb54fccffaddd38916e85c08de98cc9', 'd06f509c418eb6f1b2fc2b766445328b')">
+      <img src="https://geo.edge.pontiscloud.com:9002/images/115/CH_LOGO/160/160/0/0/57769025072354.png" alt="Telefe">
+      <div class="card-title">Telefe</div>
+    </div>
+
+    <div class="card" onclick="playChannel('https://cdn.sensa.com.ar/live/eds/Canal13/live_dash_cld/Canal13.mpd', 'e7b05c7a737b7f0a5d571b91deaa2697', '4079ac205b544b1c294ee1568906ff58')">
+      <img src="https://geo.edge.pontiscloud.com:9002/images/57/CH_LOGO/160/160/0/0/42552730073067.png" alt="Canal 13">
+      <div class="card-title">El Trece</div>
+    </div>
+
+    <!-- Agregá más canales acá -->
+  </div>
+
+  <script>
+    async function initPlayer() {
+      if (shaka.Player.isBrowserSupported()) {
+        window.player = new shaka.Player(document.getElementById('video'));
+      } else {
+        alert('Tu navegador no soporta Shaka Player.');
+      }
+    }
+
+    async function playChannel(url, keyId, key) {
+      const player = window.player;
+      try {
+        await player.detach(); // Detach actual stream si hay uno
+        player.configure({
+          drm: {
+            clearKeys: {
+              [keyId]: key
+            }
+          }
+        });
+        await player.load(url);
+      } catch (error) {
+        console.error("Error al cargar el canal:", error);
+        alert("No se pudo reproducir el canal.");
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initPlayer);
+  </script>
 </body>
 </html>
