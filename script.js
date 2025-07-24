@@ -1,4 +1,4 @@
-const listUrl = "https://pastebin.com/raw/Dxiva5RP"; // Tu lista IPTV remota
+const listUrl = "Lism3"; // Tu lista IPTV remota
 
 function login() {
   const user = document.getElementById("username").value;
