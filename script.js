@@ -1,4 +1,4 @@
-fetch('https://pastebin.com/raw/Dxiva5RP')
+fetch('Lista.m3u')
   .then(res => res.text())
   .then(text => {
     const lines = text.split('\n');
