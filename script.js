@@ -1,4 +1,4 @@
-const listUrl = "const url = "https://marcosariel32.github.io/Zano/lism3";"; // Tu lista IPTV remota
+const listUrl = "const url = "https://marcosariel32.github.io/Zano/Lism3";"; // Tu lista IPTV remota
 
 function login() {
   const user = document.getElementById("username").value;
