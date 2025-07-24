@@ -1,32 +1,64 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <title>TV Gratis Online</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.0/shaka-player.compiled.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+  <title>TV en Vivo Gratis</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+    }
+    .channel-card {
+      background: #222;
+      margin: 10px auto;
+      padding: 10px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 0 10px #000;
+    }
+    .channel-card img {
+      width: 100px;
+      height: 100px;
+    }
+    video {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
+<body>
+  <h1>📺 Canales IPTV Gratis</h1>
+  <div id="channels"></div>
 
-  <!-- Login -->
-  <div class="w-full max-w-md mb-8" id="loginForm">
-    <h1 class="text-3xl font-bold text-center mb-4">🔐 Ingresar</h1>
-    <input type="text" id="username" placeholder="Usuario" class="w-full mb-2 p-2 rounded text-black" />
-    <input type="password" id="password" placeholder="Contraseña" class="w-full mb-4 p-2 rounded text-black" />
-    <button class="bg-blue-600 px-4 py-2 rounded w-full" onclick="login()">Entrar</button>
-  </div>
+  <script>
+    const url = "https://marcosariel32.github.io/Zano/lista.m3u"; // Reemplazá esto si tu archivo tiene otro nombre o ruta
 
-  <!-- App -->
-  <div class="hidden w-full" id="app">
-    <h2 class="text-2xl font-bold mb-4">📺 Canales Disponibles</h2>
-    <div id="channelList" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-
-    <div class="w-full mt-8">
-      <video id="video" class="w-full rounded-lg shadow-xl" controls autoplay></video>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    fetch(url)
+      .then(res => res.text())
+      .then(data => {
+        const lines = data.split('\n');
+        const channelsDiv = document.getElementById('channels');
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].startsWith('#EXTINF')) {
+            const name = lines[i].split(',')[1];
+            const streamUrl = lines[i + 1];
+            const channelCard = document.createElement('div');
+            channelCard.className = 'channel-card';
+            channelCard.innerHTML = `
+              <h3>${name}</h3>
+              <video controls src="${streamUrl}" poster="https://via.placeholder.com/100x100?text=TV+Canal"></video>
+            `;
+            channelsDiv.appendChild(channelCard);
+          }
+        }
+      })
+      .catch(err => {
+        document.getElementById('channels').innerText = "Error al cargar la lista.";
+        console.error(err);
+      });
+  </script>
 </body>
 </html>
