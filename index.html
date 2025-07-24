@@ -1,14 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>📡 Canales IPTV</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📺 Lista IPTV .mpd</title>
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.3.5/dist/shaka-player.compiled.min.js"></script>
+  <script defer src="script.js"></script>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00d1ff;
+      margin-bottom: 30px;
+    }
+
+    .canal-card {
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .canal-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    @media (min-width: 600px) {
+      video {
+        max-width: 600px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>📡 Canales IPTV</h1>
-  <div id="canales-container"></div>
-  <script src="script.js"></script>
+  <h1>📡 Canales en Vivo (.mpd)</h1>
+  <div id="player-container"></div>
 </body>
 </html>
