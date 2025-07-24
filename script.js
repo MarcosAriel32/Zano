@@ -1,25 +1,26 @@
-fetch('Lista.m3u')
+fetch('https://pastebin.com/raw/Dxiva5RP')
   .then(res => res.text())
-  .then(data => {
-    const lines = data.split('\n');
+  .then(text => {
+    const lines = text.split('\n');
     const container = document.getElementById('channels');
 
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].startsWith('#EXTINF')) {
         const name = lines[i].split(',')[1] || 'Canal';
-        const url = lines[i + 1];
+        const url = lines[i + 1].trim();
 
-        const card = document.createElement('div');
-        card.className = 'channel-card';
-        const videoId = `player${i}`;
-        card.innerHTML = `
-          <h3>${name}</h3>
-          <video id="${videoId}" controls></video>
+        const playerId = `video${i}`;
+        const div = document.createElement('div');
+        div.className = 'channel';
+        div.innerHTML = `
+          <h2>${name}</h2>
+          <video id="${playerId}" controls autoplay muted></video>
         `;
-        container.appendChild(card);
+        container.appendChild(div);
 
+        const video = document.getElementById(playerId);
         const player = dashjs.MediaPlayer().create();
-        player.initialize(document.getElementById(videoId), url, false);
+        player.initialize(video, url, false);
       }
     }
   });
