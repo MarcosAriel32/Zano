@@ -1,51 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>TV en Vivo Gratis</title>
-  <style>
-    body { font-family: sans-serif; background: #111; color: white; text-align: center; }
-    .channel-card { background: #222; margin: 1em; padding: 1em; border-radius: 10px; display: inline-block; width: 150px; }
-    .channel-card img { width: 100px; height: 100px; object-fit: contain; }
-  </style>
+  <title>TV Gratis Online</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.0/shaka-player.compiled.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>📺 Canales IPTV Gratis</h1>
-  <div id="channels"></div>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
 
-  <script>
-    const url = "https://pastebin.com/raw/Dxiva5RP"; // tu lista m3u8
-    fetch(url)
-      .then(res => res.text())
-      .then(data => {
-        const lines = data.split('\n');
-        const channels = [];
-        for (let i = 0; i < lines.length; i++) {
-          if (lines[i].startsWith('#EXTINF')) {
-            const title = lines[i].split(',')[1];
-            const logoMatch = lines[i].match(/tvg-logo="(.*?)"/);
-            const logo = logoMatch ? logoMatch[1] : '';
-            const stream = lines[i + 1];
-            channels.push({ title, logo, stream });
-          }
-        }
+  <!-- Login -->
+  <div class="w-full max-w-md mb-8" id="loginForm">
+    <h1 class="text-3xl font-bold text-center mb-4">🔐 Ingresar</h1>
+    <input type="text" id="username" placeholder="Usuario" class="w-full mb-2 p-2 rounded text-black" />
+    <input type="password" id="password" placeholder="Contraseña" class="w-full mb-4 p-2 rounded text-black" />
+    <button class="bg-blue-600 px-4 py-2 rounded w-full" onclick="login()">Entrar</button>
+  </div>
 
-        const container = document.getElementById('channels');
-        channels.forEach(ch => {
-          const div = document.createElement('div');
-          div.className = 'channel-card';
-          div.innerHTML = `
-            <h4>${ch.title}</h4>
-            <img src="${ch.logo}" alt="${ch.title}" />
-            <br/>
-            <video width="120" height="90" controls>
-              <source src="${ch.stream}" type="application/x-mpegURL">
-              Tu navegador no soporta el reproductor.
-            </video>
-          `;
-          container.appendChild(div);
-        });
-      });
-  </script>
+  <!-- App -->
+  <div class="hidden w-full" id="app">
+    <h2 class="text-2xl font-bold mb-4">📺 Canales Disponibles</h2>
+    <div id="channelList" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+
+    <div class="w-full mt-8">
+      <video id="video" class="w-full rounded-lg shadow-xl" controls autoplay></video>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
