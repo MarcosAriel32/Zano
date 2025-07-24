@@ -2,58 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>IPTV .mpd Player</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Reproductor DASH -->
-  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #eee;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    header {
-      background: #222;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.4rem;
-      color: #0ff;
-    }
-    main {
-      flex: 1;
-      padding: 1rem;
-    }
-    .channel-card {
-      background: #222;
-      border-radius: 8px;
-      margin: 1rem auto;
-      padding: 1rem;
-      max-width: 720px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.5);
-    }
-    .channel-card h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.2rem;
-      color: #0ff;
-    }
-    .channel-card video {
-      width: 100%;
-      height: auto;
-      border-radius: 4px;
-    }
-  </style>
+  <title>📡 Canales IPTV</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.js"></script>
 </head>
 <body>
-
-  <header>📡 Canales IPTV </header>
-  <main id="channels"></main>
-
+  <h1>📡 Canales IPTV</h1>
+  <div id="canales-container"></div>
   <script src="script.js"></script>
 </body>
 </html>
