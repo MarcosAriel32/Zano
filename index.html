@@ -1,64 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>TV en Vivo Gratis</title>
+  <meta charset="UTF-8">
+  <title>Canales Gratis IPTV</title>
+  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
   <style>
     body {
       font-family: sans-serif;
       background: #111;
       color: #fff;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1 {
       text-align: center;
+      color: #0ff;
     }
     .channel-card {
       background: #222;
-      margin: 10px auto;
-      padding: 10px;
-      border-radius: 10px;
-      width: 300px;
-      box-shadow: 0 0 10px #000;
+      border-radius: 1rem;
+      margin: 1rem auto;
+      padding: 1rem;
+      max-width: 720px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
     }
-    .channel-card img {
-      width: 100px;
-      height: 100px;
+    .channel-card h3 {
+      margin-top: 0;
+      color: #0ff;
     }
     video {
       width: 100%;
-      max-width: 600px;
-      margin-top: 10px;
+      border-radius: 1rem;
     }
   </style>
 </head>
 <body>
-  <h1>📺 Canales IPTV Gratis</h1>
+  <h1>📺 Canales en Vivo</h1>
   <div id="channels"></div>
-
-  <script>
-    const url = "https://marcosariel32.github.io/Zano/Lista.m3u"; // Reemplazá esto si tu archivo tiene otro nombre o ruta
-
-    fetch(url)
-      .then(res => res.text())
-      .then(data => {
-        const lines = data.split('\n');
-        const channelsDiv = document.getElementById('channels');
-        for (let i = 0; i < lines.length; i++) {
-          if (lines[i].startsWith('#EXTINF')) {
-            const name = lines[i].split(',')[1];
-            const streamUrl = lines[i + 1];
-            const channelCard = document.createElement('div');
-            channelCard.className = 'channel-card';
-            channelCard.innerHTML = `
-              <h3>${name}</h3>
-              <video controls src="${streamUrl}" poster="https://via.placeholder.com/100x100?text=TV+Canal"></video>
-            `;
-            channelsDiv.appendChild(channelCard);
-          }
-        }
-      })
-      .catch(err => {
-        document.getElementById('channels').innerText = "Error al cargar la lista.";
-        console.error(err);
-      });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
